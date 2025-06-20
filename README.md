@@ -10,3 +10,5 @@ Commit 3.1 - Colocando o models admin
 Commit 3.2 - Colocando o models admin
 
 Commit 4 -  Organizando estrutura do projeto
+
+Commit 5 -  Realizando novas migraçoes
