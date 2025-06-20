@@ -43,9 +43,8 @@ INSTALLED_APPS = [
     'apps.casamentos',
     'apps.contratos',
     'apps.financeiro',
-    'apps.usuario'
-
-
+    'apps.usuario',
+    'apps.pag_inicial',
 ]
 
 MIDDLEWARE = [
