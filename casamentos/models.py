@@ -1,7 +1,7 @@
 from django.db import models
 from cerimonialista.models import Cerimonialista
 from cliente.models import Cliente
-#from fornecedor.models import Fornecedor
+
 
 # Create your models here.
 

@@ -37,7 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cerimonialista'
+    'cerimonialista',
+    'cliente',
+    'fornecedor',
+    'casamentos',
+    'contratos',
+    'financeiro',
+    'usuario'
+
 
 ]
 
