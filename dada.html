@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerne Gestor de Casamentos | Software para Cerimonialistas</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- GERAL E VARIÁVEIS DE COR --- */
+        :root {
+            --cor-primaria: #0A2342; /* Azul escuro profundo */
+            --cor-secundaria: #D4AF37; /* Dourado suave */
+            --cor-fundo: #FDFDFD;
+            --cor-texto: #333333;
+            --cor-texto-claro: #FFFFFF;
+            --cor-fundo-secao: #F4F7F9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--cor-primaria);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+            transition: box-shadow 0.5s ease-in-out;
+        }
+        
+        .highlight-section {
+            box-shadow: 0 0 0 4px var(--cor-secundaria);
+            border-radius: 8px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            transition: transform 0.3s, background-color 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--cor-secundaria);
+            color: var(--cor-primaria);
+            border-color: var(--cor-secundaria);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            background-color: #c9a32b;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--cor-primaria);
+            border-color: var(--cor-primaria);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            background-color: var(--cor-primaria);
+            color: var(--cor-texto-claro);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- CABEÇALHO E NAVEGAÇÃO --- */
+        .main-header {
+            background-color: var(--cor-texto-claro);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cor-primaria);
+            text-decoration: none;
+        }
+
+        .main-nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--cor-texto);
+            font-weight: 600;
+            position: relative;
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--cor-secundaria);
+            transition: width 0.3s;
+        }
+
+        .main-nav a:hover::after {
+            width: 100%;
+        }
+
+        /* --- SEÇÃO HERO --- */
+        #hero {
+            background: linear-gradient(rgba(10, 35, 66, 0.8), rgba(10, 35, 66, 0.8)), url('https://images.unsplash.com/photo-1523438903325-1e45a5a1b3db?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+            color: var(--cor-texto-claro);
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        #hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--cor-texto-claro);
+        }
+
+        #hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+        }
+
+        #hero .btn { margin: 0 10px; }
+        #hero .btn-primary { color: var(--cor-texto-claro); background-color: var(--cor-secundaria); }
+        #hero .btn-secondary { color: var(--cor-texto-claro); border-color: var(--cor-texto-claro); }
+        #hero .btn-secondary:hover { background-color: var(--cor-texto-claro); color: var(--cor-primaria); }
+
+        /* --- SEÇÕES DE CONTEÚDO (GENÉRICO) --- */
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 60px; }
+        #problema { background-color: var(--cor-fundo-secao); }
+        #problema .content { text-align: center; max-width: 800px; margin: 0 auto; }
+        #problema h2 { font-size: 2rem; margin-bottom: 20px; }
+        #problema ul { list-style: none; margin-top: 30px; display: inline-block; text-align: left; }
+        #problema li { margin-bottom: 10px; font-size: 1.1rem; }
+        #problema li::before { content: '✓'; color: var(--cor-secundaria); font-weight: bold; margin-right: 10px; }
+        
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .card { background-color: var(--cor-texto-claro); padding: 30px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.07); text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+        .card-icon { font-size: 3rem; color: var(--cor-secundaria); margin-bottom: 20px; }
+        .card h3 { margin-bottom: 15px; font-size: 1.3rem; }
+
+        #testemunhos { background-color: var(--cor-fundo-secao); }
+        .testimonial-card { background-color: var(--cor-texto-claro); padding: 30px; border-left: 5px solid var(--cor-secundaria); border-radius: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+        .testimonial-card blockquote { font-style: italic; margin-bottom: 15px; border: none; }
+        .testimonial-card cite { font-weight: bold; color: var(--cor-primaria); font-style: normal; }
+
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; align-items: stretch; }
+        .plan { background: var(--cor-texto-claro); border: 1px solid #ddd; border-radius: 8px; padding: 40px; text-align: center; display: flex; flex-direction: column; }
+        .plan h3 { font-size: 1.5rem; }
+        .plan-price { font-size: 3rem; font-weight: 700; color: var(--cor-primaria); margin: 20px 0; }
+        .plan-price span { font-size: 1rem; font-weight: 400; color: #777; }
+        .plan ul { list-style: none; margin-bottom: 30px; text-align: left; flex-grow: 1; }
+        .plan li { margin-bottom: 15px; }
+        .plan li::before { content: '✓'; color: var(--cor-secundaria); margin-right: 10px; }
+        .plan.popular { border: 2px solid var(--cor-secundaria); transform: scale(1.05); position: relative; }
+        .plan.popular::before { content: 'Mais Popular'; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background-color: var(--cor-secundaria); color: var(--cor-primaria); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; }
+
+        #cta-final { background-color: var(--cor-primaria); color: var(--cor-texto-claro); text-align: center; }
+        #cta-final h2 { color: var(--cor-texto-claro); }
+        #cta-final .btn { margin-top: 20px; }
+
+        .main-footer { background-color: var(--cor-primaria); color: #ccc; padding: 60px 0 20px 0; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .footer-col h4 { color: var(--cor-texto-claro); font-size: 1.2rem; margin-bottom: 20px; }
+        .footer-col p, .footer-col a { color: #ccc; text-decoration: none; display: block; margin-bottom: 10px; transition: color 0.3s; }
+        .footer-col a:hover { color: var(--cor-secundaria); }
+        .footer-bottom { text-align: center; border-top: 1px solid #444; padding-top: 20px; font-size: 0.9rem; }
+
+        /* --- MODAL DE LOGIN/REGISTRO --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000; display: none; align-items: center; justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--cor-texto-claro); padding: 20px 40px 40px 40px; border-radius: 8px;
+            width: 90%; max-width: 550px; position: relative;
+            animation: fadeInDown 0.5s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .close-btn {
+            position: sticky; top: 10px; right: -25px;
+            font-size: 2rem; color: #aaa; cursor: pointer; border: none; background: none;
+            z-index: 10; float: right;
+        }
+        .close-btn:hover { color: #333; }
+
+        .modal-content h2 { text-align: center; margin-bottom: 20px; clear: both; }
+        
+        #role-selection { text-align: center; }
+        .role-options { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 30px; }
+        .role-card {
+            padding: 20px; border: 1px solid #ddd; border-radius: 8px;
+            cursor: pointer; transition: all 0.3s;
+            display: flex; align-items: center; gap: 15px; text-align: left;
+            background-color: transparent; width: 100%;
+        }
+        .role-card:hover { border-color: var(--cor-secundaria); background-color: #f9f9f9; transform: translateY(-5px); }
+        .role-card .icon { font-size: 2.5rem; }
+        .role-card h4 { margin: 0; }
+        .role-card p { margin: 0; font-size: 0.9rem; color: #666; }
+
+        .auth-form-container { display: none; }
+        .back-to-selection-btn {
+            background: none; border: none; color: var(--cor-primaria);
+            cursor: pointer; font-weight: 600; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 5px;
+        }
+
+        /* ESTILOS DE FORMULÁRIO (reutilizáveis) */
+        .tab-buttons { display: flex; border-bottom: 1px solid #ddd; margin-bottom: 20px; }
+        .tab-buttons button {
+            flex-grow: 1; padding: 15px; border: none; background: none;
+            cursor: pointer; font-size: 1.1rem; font-family: 'Montserrat';
+            color: #aaa; border-bottom: 3px solid transparent; transition: all 0.3s;
+        }
+        .tab-buttons button.active { color: var(--cor-primaria); border-bottom-color: var(--cor-secundaria); }
+        
+        .form-content { display: none; }
+        .form-content.active { display: block; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
+        
+        /* ESTILO UNIFICADO PARA INPUTS, SELECTS E TEXTAREAS */
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            font-family: 'Lato', sans-serif;
+            background-color: #fff;
+        }
+
+        .form-group select {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--cor-secundaria);
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+        }
+
+        /* --- RESPONSIVIDADE --- */
+        @media (max-width: 768px) {
+            .main-header .container { flex-direction: column; }
+            .main-nav { margin-top: 15px; }
+            .main-nav a { margin: 0 10px; }
+            #hero h1 { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .plan.popular { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">Cerne Gestor</a>
+            <nav class="main-nav">
+                <a href="#beneficios">Benefícios</a>
+                <a href="#recursos">Recursos</a>
+                <a href="#planos">Planos</a>
+                <a href="#cta-final">Contato</a>
+            </nav>
+            <button class="btn btn-primary open-modal-btn">Acessar</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- SEÇÃO HERO -->
+        <section id="hero">
+            <div class="hero-content fade-in">
+                <h1>Transforme o "Sim" em um evento impecável.</h1>
+                <p>O software definitivo para cerimonialistas que buscam perfeição. Centralize orçamentos, contratos, fornecedores e prazos em um único lugar. Menos estresse, mais magia.</p>
+                <button class="btn btn-primary open-modal-btn">Comece Seu Teste Gratuito</button>
+                <button id="show-how-it-works-btn" class="btn btn-secondary">Veja como Funciona ↓</button>
+            </div>
+        </section>
+        
+        <!-- SEÇÃO O PROBLEMA -->
+        <section id="problema">
+            <div class="container fade-in">
+                <div class="content">
+                    <h2>Sua paixão é criar sonhos. A nossa é garantir que nada vire um pesadelo.</h2>
+                    <p>Gerenciar dezenas de fornecedores, controlar pagamentos e cumprir prazos em planilhas intermináveis é a receita para o caos. O risco de um detalhe esquecido pode comprometer a experiência que você tanto se esforça para criar.</p>
+                    <ul>
+                        <li>Medo de esquecer um prazo importante?</li>
+                        <li>Dificuldade em controlar o orçamento e as parcelas?</li>
+                        <li>Informações espalhadas entre e-mails e planilhas?</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO BENEFÍCIOS -->
+        <section id="beneficios">
+            <div class="container">
+                <h2 class="section-title fade-in">Gestão Completa, do Pedido ao Altar.</h2>
+                <div class="cards-grid">
+                    <div class="card fade-in">
+                        <div class="card-icon">📊</div>
+                        <h3>Visão Descomplicada</h3>
+                        <p>Interface amigável que proporciona uma visão clara e organizada de todos os dados relevantes do casamento.</p>
+                    </div>
+                    <div class="card fade-in">
+                        <div class="card-icon">💰</div>
+                        <h3>Flexibilidade nas Parcelas</h3>
+                        <p>Gerencie e ajuste parcelas de pagamento de forma personalizada, com alertas automáticos de vencimento.</p>
+                    </div>
+                    <div class="card fade-in">
+                        <div class="card-icon">📋</div>
+                        <h3>Listagem de Itens</h3>
+                        <p>Crie e gerencie listas de itens necessários, incluindo quantidades, status de aquisição e fornecedores.</p>
+                    </div>
+                    <div class="card fade-in">
+                        <div class="card-icon">📅</div>
+                        <h3>Prazos Sob Controle</h3>
+                        <p>Calendário integrado com visão geral de todas as datas e prazos importantes, com lembretes automáticos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO RECURSOS (MÓDULOS) -->
+        <section id="recursos" style="background-color: var(--cor-fundo-secao);">
+            <div class="container">
+                <h2 class="section-title fade-in">Recursos Pensados para o Seu Sucesso.</h2>
+                <div class="cards-grid">
+                    <div class="card fade-in">
+                        <div class="card-icon">🧮</div>
+                        <h3>Módulo de Orçamento</h3>
+                        <p>Crie orçamentos detalhados, incluindo estimativas de custos para decoração, buffet, fotografia e mais.</p>
+                    </div>
+                    <div class="card fade-in">
+                        <div class="card-icon">✒️</div>
+                        <h3>Módulo de Contratos</h3>
+                        <p>Armazene e gerencie contratos com fornecedores e clientes, com alertas de vencimento.</p>
+                    </div>
+                    <div class="card fade-in">
+                        <div class="card-icon">✅</div>
+                        <h3>Módulo de Gestão de Itens</h3>
+                        <p>Uma lista dinâmica para adicionar e atualizar itens, acompanhando o status de cada um.</p>
+                    </div>
+                     <div class="card fade-in">
+                        <div class="card-icon">🗓️</div>
+                        <h3>Módulo de Calendário</h3>
+                        <p>Visão cronológica de todas as atividades e prazos para agendamento e lembretes automáticos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO TESTEMUNHOS -->
+        <section id="testemunhos">
+             <div class="container">
+                <h2 class="section-title fade-in">Cerimonialistas que confiam no Cerne Gestor</h2>
+                <div class="cards-grid">
+                    <div class="testimonial-card fade-in">
+                        <blockquote>"O Cerne Gestor mudou a forma como eu trabalho. A organização que ganhei me permite focar no que realmente importa: a experiência dos noivos. Meus clientes sentem a diferença."</blockquote>
+                        <cite>— Mariana Costa, Cerimonialista de Sucesso</cite>
+                    </div>
+                    <div class="testimonial-card fade-in">
+                        <blockquote>"Antes, eu vivia perdida em planilhas. Agora, tenho o controle total de todos os eventos em um só painel. O módulo de contratos e o controle de parcelas são salva-vidas!"</blockquote>
+                        <cite>— Rafael Lins, Assessor de Eventos</cite>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SEÇÃO PLANOS -->
+        <section id="planos" style="background-color: var(--cor-fundo-secao);">
+            <div class="container">
+                <h2 class="section-title fade-in">Um plano para cada tamanho de sonho.</h2>
+                <div class="pricing-grid">
+                    <div class="plan fade-in">
+                        <h3>Essencial</h3>
+                        <div class="plan-price">R$ 99<span>/mês</span></div>
+                        <ul>
+                            <li>Até 5 eventos simultâneos</li>
+                            <li>Módulos de Orçamento e Itens</li>
+                            <li>Módulo de Calendário</li>
+                            <li>Suporte via e-mail</li>
+                        </ul>
+                        <button class="btn btn-secondary open-modal-btn">Escolher Plano</button>
+                    </div>
+                    <div class="plan popular fade-in">
+                        <h3>Profissional</h3>
+                        <div class="plan-price">R$ 199<span>/mês</span></div>
+                        <ul>
+                            <li>Até 20 eventos simultâneos</li>
+                            <li>Todos os Módulos</li>
+                            <li>Suporte Prioritário</li>
+                            <li>Acesso para 3 usuários</li>
+                        </ul>
+                        <button class="btn btn-primary open-modal-btn">Escolher Plano</button>
+                    </div>
+                    <div class="plan fade-in">
+                        <h3>Premium</h3>
+                        <div class="plan-price">Consulte<span>-nos</span></div>
+                        <ul>
+                            <li>Eventos ilimitados</li>
+                            <li>Todos os Módulos</li>
+                            <li>Suporte Dedicado 24/7</li>
+                            <li>Acesso para usuários ilimitados</li>
+                        </ul>
+                        <a href="#cta-final" class="btn btn-secondary">Fale Conosco</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SEÇÃO CTA FINAL -->
+        <section id="cta-final">
+            <div class="container fade-in">
+                <h2 class="section-title">Pronto para elevar o nível dos seus eventos?</h2>
+                <p>Deixe a burocracia com a gente e dedique-se a criar momentos inesquecíveis.</p>
+                <button class="btn btn-primary open-modal-btn">Comece seu Teste Gratuito de 14 Dias</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Cerne Gestor</h4>
+                    <p>Organização que gera emoção.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Produto</h4>
+                    <a href="#beneficios">Benefícios</a>
+                    <a href="#recursos">Recursos</a>
+                    <a href="#planos">Planos</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Empresa</h4>
+                    <a href="#">Sobre Nós</a>
+                    <a href="#">Carreiras</a>
+                    <a href="#">Contato</a>
+                </div>
+                 <div class="footer-col">
+                    <h4>Suporte</h4>
+                    <a href="#">FAQ</a>
+                    <a href="#">Central de Ajuda</a>
+                    <a href="#">Agendar Demo</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © 2024 Cerne Gestor. Todos os direitos reservados. | <a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DE LOGIN/REGISTRO -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-content">
+            <button class="close-btn" id="close-modal-btn">×</button>
+            
+            <!-- ETAPA 1: SELEÇÃO DE PERFIL -->
+            <div id="role-selection">
+                <h2>Como você deseja acessar?</h2>
+                <div class="role-options">
+                    <button class="role-card" data-role="cerimonialista">
+                        <div class="icon">🤵</div>
+                        <div class="text">
+                            <h4>Sou Cerimonialista</h4>
+                            <p>Acesse para gerenciar seus eventos.</p>
+                        </div>
+                    </button>
+                    <button class="role-card" data-role="fornecedor">
+                        <div class="icon">📷</div>
+                        <div class="text">
+                            <h4>Sou Fornecedor</h4>
+                            <p>Acesse seu portal de fornecedor.</p>
+                        </div>
+                    </button>
+                    <button class="role-card" data-role="cliente">
+                        <div class="icon">💑</div>
+                        <div class="text">
+                            <h4>Sou Cliente (Noivos)</h4>
+                            <p>Acompanhe os detalhes do seu casamento.</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ETAPA 2: FORMULÁRIOS DE AUTENTICAÇÃO -->
+            <!-- Formulário para Cerimonialista -->
+            <div class="auth-form-container" id="cerimonialista-auth">
+                <button class="back-to-selection-btn">← Voltar</button>
+                <h2>Acesso do Cerimonialista</h2>
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="register">Criar Conta</button>
+                    <button class="tab-btn" data-tab="login">Login</button>
+                </div>
+                <!-- Cadastro Cerimonialista -->
+                <div class="form-content active" data-form="register">
+                    <form>
+                        <div class="form-group"><label for="c-reg-name">Nome completo</label><input type="text" id="c-reg-name" required></div>
+                        <div class="form-group"><label for="c-reg-email">E-mail profissional</label><input type="email" id="c-reg-email" required></div>
+                        <div class="form-group"><label for="c-reg-pass">Senha</label><input type="password" id="c-reg-pass" required></div>
+                        <div class="form-group"><label for="c-reg-cpf">CPF</label><input type="text" id="c-reg-cpf" required></div>
+                        <div class="form-group"><label for="c-reg-tel">Telefone</label><input type="tel" id="c-reg-tel" required></div>
+                        <div class="form-group"><label for="c-reg-company">Nome da empresa (opcional)</label><input type="text" id="c-reg-company"></div>
+                        <div class="form-group"><label for="c-reg-city">Cidade e estado</label><input type="text" id="c-reg-city" required></div>
+                        <div class="form-group"><label for="c-reg-exp">Experiência na área (opcional)</label>
+                            <select id="c-reg-exp"><option value="">Selecione</option><option>Iniciante</option><option>1-3 anos</option><option>3-5 anos</option><option>Mais de 5 anos</option></select>
+                        </div>
+                        <div class="form-group"><label for="c-reg-portfolio">Portfólio ou redes sociais (opcional)</label><input type="url" id="c-reg-portfolio"></div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Criar Conta Grátis</button>
+                    </form>
+                </div>
+                <!-- Login Cerimonialista -->
+                <div class="form-content" data-form="login">
+                    <form>
+                        <div class="form-group"><label for="c-login-email">E-mail</label><input type="email" id="c-login-email" required></div>
+                        <div class="form-group"><label for="c-login-password">Senha</label><input type="password" id="c-login-password" required></div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Entrar</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Formulário para Fornecedor -->
+            <div class="auth-form-container" id="fornecedor-auth">
+                <button class="back-to-selection-btn">← Voltar</button>
+                <h2>Portal do Fornecedor</h2>
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="register">Registrar</button>
+                    <button class="tab-btn" data-tab="login">Login</button>
+                </div>
+                <!-- Cadastro Fornecedor -->
+                <div class="form-content active" data-form="register">
+                    <form>
+                        <div class="form-group"><label for="f-reg-name">Nome completo ou razão social</label><input type="text" id="f-reg-name" required></div>
+                        <div class="form-group"><label for="f-reg-fantasy">Nome fantasia (opcional)</label><input type="text" id="f-reg-fantasy"></div>
+                        <div class="form-group"><label for="f-reg-doc">CNPJ ou CPF</label><input type="text" id="f-reg-doc" required></div>
+                        <div class="form-group"><label for="f-reg-email">E-mail de contato</label><input type="email" id="f-reg-email" required></div>
+                        <div class="form-group"><label for="f-reg-pass">Senha</label><input type="password" id="f-reg-pass" required></div>
+                        <div class="form-group"><label for="f-reg-tel">Telefone/WhatsApp</label><input type="tel" id="f-reg-tel" required></div>
+                        <div class="form-group"><label for="f-reg-cat">Categoria do serviço</label>
+                            <select id="f-reg-cat" required><option value="">Selecione a categoria</option><option>Buffet</option><option>Fotografia e Vídeo</option><option>Decoração</option><option>Música</option><option>Espaço para Eventos</option><option>Outros</option></select>
+                        </div>
+                        <div class="form-group"><label for="f-reg-city">Cidade e estado</label><input type="text" id="f-reg-city" required></div>
+                        <div class="form-group"><label for="f-reg-portfolio">Portfólio ou redes sociais</label><input type="url" id="f-reg-portfolio" required></div>
+                        <div class="form-group"><label for="f-reg-desc">Descrição dos serviços</label><textarea id="f-reg-desc" required></textarea></div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Registrar</button>
+                    </form>
+                </div>
+                <!-- Login Fornecedor -->
+                <div class="form-content" data-form="login">
+                     <form>
+                        <div class="form-group"><label for="f-login-email">E-mail</label><input type="email" id="f-login-email" required></div>
+                        <div class="form-group"><label for="f-login-password">Senha</label><input type="password" id="f-login-password" required></div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Entrar</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Formulário para Cliente (Noivos) -->
+            <div class="auth-form-container" id="cliente-auth">
+                <button class="back-to-selection-btn">← Voltar</button>
+                <h2>Área do Cliente</h2>
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="register">Criar Conta</button>
+                    <button class="tab-btn" data-tab="login">Login</button>
+                </div>
+                <!-- Cadastro Cliente -->
+                <div class="form-content active" data-form="register">
+                    <form>
+                        <div class="form-group"><label for="n-reg-name">Nome(s) do(s) noivo(s)</label><input type="text" id="n-reg-name" required></div>
+                        <div class="form-group"><label for="n-reg-email">E-mail</label><input type="email" id="n-reg-email" required></div>
+                        <div class="form-group"><label for="n-reg-pass">Senha</label><input type="password" id="n-reg-pass" required></div>
+                        <div class="form-group"><label for="n-reg-cpf">CPF (opcional)</label><input type="text" id="n-reg-cpf"></div>
+                        <div class="form-group"><label for="n-reg-tel">Telefone</label><input type="tel" id="n-reg-tel" required></div>
+                        <div class="form-group"><label for="n-reg-date">Data do casamento</label><input type="date" id="n-reg-date" required></div>
+                        <div class="form-group"><label for="n-reg-city">Cidade e estado</label><input type="text" id="n-reg-city" required></div>
+                        <div class="form-group"><label for="n-reg-budget">Orçamento estimado (opcional)</label><input type="number" id="n-reg-budget" placeholder="Ex: 50000"></div>
+                        <div class="form-group"><label for="n-reg-type">Tipo de cerimônia (opcional)</label>
+                            <select id="n-reg-type"><option value="">Selecione</option><option>Religiosa com efeito civil</option><option>Apenas religiosa</option><option>Apenas civil</option><option>Simbólica</option></select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Criar Conta</button>
+                    </form>
+                </div>
+                <!-- Login Cliente -->
+                <div class="form-content" data-form="login">
+                     <form>
+                        <div class="form-group"><label for="n-login-email">E-mail</label><input type="email" id="n-login-email" required></div>
+                        <div class="form-group"><label for="n-login-password">Senha</label><input type="password" id="n-login-password" required></div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Acessar meu Evento</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // --- ANIMAÇÃO DE FADE-IN NO SCROLL ---
+        const fadeInElements = document.querySelectorAll('.fade-in');
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        fadeInElements.forEach(el => observer.observe(el));
+
+        // --- BOTÃO "VEJA COMO FUNCIONA" ---
+        const showHowBtn = document.getElementById('show-how-it-works-btn');
+        const beneficiosSection = document.getElementById('beneficios');
+        showHowBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            beneficiosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setTimeout(() => { beneficiosSection.classList.add('highlight-section'); }, 500);
+            setTimeout(() => { beneficiosSection.classList.remove('highlight-section'); }, 2000);
+        });
+
+        // --- LÓGICA DO MODAL DE AUTENTICAÇÃO ---
+        const modalOverlay = document.getElementById('auth-modal');
+        const openModalBtns = document.querySelectorAll('.open-modal-btn');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        
+        const roleSelectionScreen = document.getElementById('role-selection');
+        const authFormContainers = document.querySelectorAll('.auth-form-container');
+        const roleCards = document.querySelectorAll('.role-card');
+        const backBtns = document.querySelectorAll('.back-to-selection-btn');
+
+        // Função para resetar o modal para a tela inicial (seleção de perfil)
+        const resetModal = () => {
+            authFormContainers.forEach(container => container.style.display = 'none');
+            roleSelectionScreen.style.display = 'block';
+            modalOverlay.querySelector('.modal-content').scrollTop = 0; // Reseta o scroll
+        };
+
+        // Abrir o modal
+        openModalBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                resetModal(); // Garante que o modal sempre abra na primeira tela
+                modalOverlay.style.display = 'flex';
+            });
+        });
+
+        // Fechar o modal
+        const closeModal = () => {
+            modalOverlay.style.display = 'none';
+        }
+        closeModalBtn.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        // Selecionar um perfil
+        roleCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const role = card.dataset.role;
+                const targetForm = document.getElementById(`${role}-auth`);
+                
+                roleSelectionScreen.style.display = 'none';
+                if (targetForm) {
+                    targetForm.style.display = 'block';
+                }
+            });
+        });
+
+        // Voltar para a seleção de perfil
+        backBtns.forEach(btn => {
+            btn.addEventListener('click', resetModal);
+        });
+
+        // Lógica das abas (Login/Registro) dentro de cada formulário
+        authFormContainers.forEach(container => {
+            const tabBtns = container.querySelectorAll('.tab-btn');
+            const formContents = container.querySelectorAll('.form-content');
+
+            tabBtns.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Desativa todas as abas e formulários DENTRO do container atual
+                    tabBtns.forEach(t => t.classList.remove('active'));
+                    formContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Ativa a aba e o formulário clicado
+                    tab.classList.add('active');
+                    const formType = tab.dataset.tab;
+                    const targetForm = container.querySelector(`.form-content[data-form="${formType}"]`);
+                    if (targetForm) {
+                        targetForm.classList.add('active');
+                    }
+                });
+            });
+        });
+    });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,98 @@
+{% load static %}
+
+<style>  
+
+.role-card.btn-outline-secondary {
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.role-card.btn-outline-secondary:hover {
+  color: #c5b358; 
+  background-color: #fff; 
+  border-color: #c5b358; 
+  box-shadow: 0 0 0 0.25rem rgba(197, 179, 88, 0.3); 
+}
+
+.back-buttom-cerimonialist,
+.back-buttom-suplier,
+.back-buttom-customer {
+  color: black; 
+  text-decoration: none;
+}
+
+.back-buttom-cerimonialist:hover,
+.back-buttom-suplier:hover,
+.back-buttom-customer:hover {
+  color: #c9a227;
+  text-decoration: None;
+}
+
+.form-control:focus {
+  border-color: #c9a227;
+  box-shadow: 0 0 0 0.25rem rgba(201, 162, 39, 0.5);
+  outline: none;
+}
+
+.form-select:focus {
+  border-color: #c9a227;
+  box-shadow: 0 0 0 0.25rem rgba(201, 162, 39, 0.5);
+  outline: none;
+}
+
+.btn-register-cerimonialista,
+.btn-register-fornecedor,
+.btn-register-cliente {
+  background-color: #c9a227; 
+  color: black; 
+  border: none; 
+  transition: all 0.3s ease;
+}
+
+.btn-register-cerimonialista:hover,
+.btn-register-fornecedor:hover,
+.btn-register-cliente:hover {
+  background-color: #b38f1f; 
+  transform: scale(1.05);
+  color: white;
+}
+
+/* Estilos para as abas */
+.nav-tabs .nav-link {
+  color: #495057;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 600;
+}
+
+.nav-tabs .nav-link.active {
+  color: #c9a227;
+  background-color: transparent;
+  border-bottom: 2px solid #c9a227;
+}
+
+.nav-tabs .nav-link:not(.active):hover {
+  color: #c9a227;
+  border-bottom: 2px solid rgba(201, 162, 39, 0.3);
+}
+</style>
+
+<!-- MODAL DE LOGIN/REGISTRO -->
+<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h2 class="modal-title fs-4 text-center w-100" id="authModalLabel"></h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4 pt-0">
+
+        {% include "pag_inicial/auth/role_selection.html" %}
+        {% include "pag_inicial/auth/cerimonialista_form.html" %}
+        {% include "pag_inicial/auth/fornecedor_form.html" %}
+        {% include "pag_inicial/auth/cliente_form.html" %}
+
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,63 @@
+{% load static %}
+<style>
+/* Efeito linha no hover dos links do menu */
+.navbar-nav .nav-link {
+    position: relative;
+    padding: 0.8rem 1.2rem;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #c9a227; /* Linha dourada */
+    transition: width 300ms ease-in-out;
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+
+/* Botão de login menor e mais arredondado */
+.btn-login {
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    background-color: #c9a227;
+    color: #000;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    color: white;
+    background-color: #A07A10; /* Cor um pouco mais clara/escura */
+    transform: scale(1.05);
+}
+</style>
+
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fs-4" href="#">Sim, Aceito</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 ">
+        <li class="nav-item mx-3"><a class="nav-link" href="#marketplace">Encontre um Cerimonialista</a></li>
+        <li class="nav-item mx-3"><a class="nav-link" href="#recursos">Para Cerimonialistas</a></li>
+        <li class="nav-item mx-3"><a class="nav-link" href="#planos">Planos</a></li>
+      </ul>
+      <button type="button" class="btn btn-login" data-bs-toggle="modal" data-bs-target="#authModal">
+        Login / Cadastro
+      </button>
+    </div>
+  </div>
+</nav>

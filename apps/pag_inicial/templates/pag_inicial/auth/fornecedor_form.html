@@ -1,0 +1,92 @@
+<!-- Formulário Fornecedor -->
+<div id="fornecedor-form-screen" class="auth-form-screen d-none">
+    <button class="back-buttom-suplier btn btn-link back-to-selection mb-2 p-0">← Voltar</button>
+    <h3 class="text-center font-montserrat mb-3">Acesso Fornecedor</h3>
+    
+    <ul class="nav nav-tabs mb-4" id="fornecedorTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="cadastro-fornecedor-tab" data-bs-toggle="tab" data-bs-target="#cadastro-fornecedor" type="button" role="tab">Cadastre-se</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="login-fornecedor-tab" data-bs-toggle="tab" data-bs-target="#login-fornecedor" type="button" role="tab">Login</button>
+      </li>
+    </ul>
+    
+    <div class="tab-content" id="fornecedorTabContent">
+
+      <!-- Cadastro Fornecedor -->
+      <div class="tab-pane fade show active" id="cadastro-fornecedor" role="tabpanel">
+        <form method="POST" action="{% url 'auth' %}">
+          {% csrf_token %}
+          <input type="hidden" name="role" value="fornecedor">
+          <input type="hidden" name="action" value="register">
+
+          <div class="mb-2">
+            <label class="form-label">Nome da Empresa</label>
+            <input type="text" class="form-control" name="nome_empresa" placeholder="Digite o nome da empresa" required>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Categoria</label>
+            <select class="form-select" name="categoria" required>
+              <option value="" selected disabled>Selecione a categoria</option>
+              <option value="buffet">Buffet</option>
+              <option value="decoracao">Decoração</option>
+              <option value="som_iluminacao">Som e Iluminação</option>
+              <option value="fotografia">Fotografia</option>
+              <option value="video">Filmagem / Vídeo</option>
+              <option value="bolo_doces">Bolo e Doces</option>
+              <option value="musica">Música / Banda / DJ</option>
+              <option value="transporte">Transporte / Limousine</option>
+              <option value="vestuario">Vestuário / Noivos e Convidados</option>
+              <option value="beleza">Beleza / Maquiagem e Cabelo</option>
+              <option value="convites">Convites e Papelaria</option>
+              <option value="aluguel_moveis">Aluguel de Móveis e Estruturas</option>
+              <option value="entretenimento">Entretenimento / Shows</option>
+              <option value="seguranca">Segurança</option>
+              <option value="outros">Outros</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">CNPJ</label>
+            <input type="text" class="form-control" name="cpf_cnpj" placeholder="Digite seu CNPJ" required>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Telefone</label>
+            <input type="tel" class="form-control" name="telefone" placeholder="Digite seu telefone" required>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">E-mail</label>
+            <input type="email" class="form-control" name="email" placeholder="Digite seu e-mail" required>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Senha</label>
+            <input type="password" class="form-control" name="senha" placeholder="Digite sua senha" required>
+          </div>
+          <button type="submit" class="btn btn-register-fornecedor w-100">Cadastrar</button>
+        </form>
+      </div>
+
+      <!-- Login Fornecedor -->
+      <div class="tab-pane fade" id="login-fornecedor" role="tabpanel">
+        <form method="POST" action="{% url 'auth' %}">
+          {% csrf_token %}
+          <input type="hidden" name="role" value="fornecedor">
+          <input type="hidden" name="action" value="login">
+
+          <div class="mb-3">
+            <label class="form-label">E-mail</label>
+            <input type="email" class="form-control" name="email" placeholder="Digite seu e-mail" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Senha</label>
+            <input type="password" class="form-control" name="senha" placeholder="Digite sua senha" required>
+          </div>
+          <button type="submit" class="btn btn-register-fornecedor w-100">Entrar</button>
+          <div class="text-center mt-3">
+            <a href="#" class="text-muted small">Esqueci minha senha</a>
+          </div>
+        </form>
+      </div>
+
+    </div>
+</div>

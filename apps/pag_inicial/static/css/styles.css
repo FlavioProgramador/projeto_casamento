@@ -1,0 +1,12 @@
+
+  .btn-role {
+    background-color: #c9a227;
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-role:hover {
+    background-color: #b38f1f; 
+    transform: scale(1.05); 
+  }

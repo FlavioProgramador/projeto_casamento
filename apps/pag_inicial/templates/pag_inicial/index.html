@@ -1,0 +1,236 @@
+
+
+{% extends 'pag_inicial/base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html, body {
+    height: 100%;
+  }
+
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+  }
+
+  /* Wrapper com 2 imagens lado a lado */
+  .slider-wrapper {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    width: 300%; /* 2 imagens lado a lado */
+    animation: slideLoop 20s infinite;
+    z-index: -2;
+  }
+
+  .slide {
+    width: 50%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .slide1 {
+    background-image: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+  }
+
+  .slide2 {
+    background-image: url('https://images.pexels.com/photos/169198/pexels-photo-169198.jpeg');
+  }
+
+  .slide3 {
+    background-image: url('https://images.pexels.com/photos/1702373/pexels-photo-1702373.jpeg');
+  }
+  
+  @keyframes slideLoop {
+    0%   { transform: translateX(0%); }
+    25%  { transform: translateX(-33.3%); }
+    50%  { transform: translateX(-66.4%); }
+    75% { transform: translateX(-33.3%); }
+    100% { transform: translateX(0%); }
+
+  }
+
+  /* Overlay escuro */
+  #hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+
+  #hero .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    padding: 2rem;
+  }
+
+
+  /* botao */
+  .btn-role {
+    background-color: #c9a227;
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-role:hover {
+    background-color: #b38f1f;
+    transform: scale(1.05);
+  }
+</style>
+
+<section id="hero">
+  <div class="slider-wrapper">
+    <div class="slide slide1"></div>
+    <div class="slide slide2"></div>
+    <div class="slide slide3"></div>
+    
+  </div>
+
+  <div class="container">
+    <h1 class="display-3 fw-bold">Onde casamentos perfeitos começam.</h1>
+    <p class="lead">
+      Para noivos, o lugar ideal para encontrar o cerimonialista perfeito.<br />
+      Para cerimonialistas, a ferramenta completa para gerenciar cada detalhe.
+    </p>
+    <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+      <button class="btn btn-sm px-3 py-2 btn-role" data-bs-toggle="modal" data-bs-target="#authModal" data-role="cliente">
+        Sou Noivo(a)
+      </button>
+      <button class="btn btn-sm px-3 py-2 btn-role" data-bs-toggle="modal" data-bs-target="#authModal" data-role="cerimonialista">
+        Sou Cerimonialista
+      </button>
+      <button class="btn btn-sm px-3 py-2 btn-role" data-bs-toggle="modal" data-bs-target="#authModal" data-role="fornecedor">
+        Sou Fornecedor
+      </button>
+    </div>
+  </div>
+</section>
+<section id="problema" class="bg-light py-5">
+  <div class="container text-center">
+    <h2 class="display-5 fw-bold mb-4" style="color:#8B6B0B; font-family: 'Georgia', serif;">
+      Sua paixão é criar sonhos. A nossa é garantir que nada vire um pesadelo.
+    </h2>
+    <p class="mb-5 text-secondary fs-5 mx-auto" style="max-width:680px; font-style: italic;">
+      Gerenciar dezenas de fornecedores, controlar pagamentos e cumprir prazos em planilhas intermináveis é a receita para o caos. O risco de um detalhe esquecido pode comprometer a experiência que você tanto se esforça para criar.
+    </p>
+    <ul class="list-unstyled mx-auto" style="max-width:500px;">
+      <li class="mb-3 p-3 rounded shadow-sm" style="background: #fff9e6; border-left: 5px solid #d6b84c; text-align: left; font-weight: 600; color: #4a3c00;">
+        <svg xmlns="http://www.w3.org/2000/svg" style="width:20px; height:20px; vertical-align: middle; margin-right:8px; fill:#d6b84c;" viewBox="0 0 16 16">
+          <path d="M13.485 1.929a.75.75 0 0 1 1.06 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 1 1 1.06-1.06L6 8.439l7.485-7.51z"/>
+        </svg>
+        Medo de esquecer um prazo importante?
+      </li>
+      <li class="mb-3 p-3 rounded shadow-sm" style="background: #fff9e6; border-left: 5px solid #d6b84c; text-align: left; font-weight: 600; color: #4a3c00;">
+        <svg xmlns="http://www.w3.org/2000/svg" style="width:20px; height:20px; vertical-align: middle; margin-right:8px; fill:#d6b84c;" viewBox="0 0 16 16">
+          <path d="M13.485 1.929a.75.75 0 0 1 1.06 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 1 1 1.06-1.06L6 8.439l7.485-7.51z"/>
+        </svg>
+        Dificuldade em controlar o orçamento e as parcelas?
+      </li>
+      <li class="mb-3 p-3 rounded shadow-sm" style="background: #fff9e6; border-left: 5px solid #d6b84c; text-align: left; font-weight: 600; color: #4a3c00;">
+        <svg xmlns="http://www.w3.org/2000/svg" style="width:20px; height:20px; vertical-align: middle; margin-right:8px; fill:#d6b84c;" viewBox="0 0 16 16">
+          <path d="M13.485 1.929a.75.75 0 0 1 1.06 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 1 1 1.06-1.06L6 8.439l7.485-7.51z"/>
+        </svg>
+        Informações espalhadas entre e-mails e planilhas?
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- MARKETPLACE: Usando o Grid (row/col) e Cards do Bootstrap -->
+<section id="marketplace" class="py-5">
+    <div class="container">
+        <h2 class="text-center font-montserrat fw-bold mb-5" style="color:#8B6B0B;">Encontre o Cerimonialista Ideal</h2>
+        
+        <div class="row g-4">
+            <!-- Card 1 -->
+            <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="card text-center w-100">
+                    <div class="card-body">
+                        <div class="card-icon mb-3 fs-2">📊</div>
+                        <h2 class="card-title h5 font-montserrat fw-bold">Visão Descomplicada</h2>
+                        <p class="card-text">Encontre profissionais por cidade, tipo de casamento e faixa de preço.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="card text-center w-100">
+                    <div class="card-body">
+                        <div class="card-icon mb-3 fs-2">💰</div>
+                        <h2 class="card-title h5 font-montserrat fw-bold">Flexibilidade nas Parcelas</h2>
+                        <p class="card-text">Gerencie e ajuste parcelas de pagamento de forma personalizada, com alertas automáticos de vencimento.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="card text-center w-100">
+                    <div class="card-body">
+                        <div class="card-icon mb-3 fs-2">🧾</div>
+                        <h2 class="card-title h5 font-montserrat fw-bold">Orçamento Inteligente</h2>
+                        <p class="card-text">Receba orçamentos claros, organize seus gastos e acompanhe o planejamento financeiro do evento.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="card text-center w-100">
+                    <div class="card-body">
+                        <div class="card-icon mb-3 fs-2">📅</div>
+                        <h2 class="card-title h5 font-montserrat fw-bold">Prazos Sob Controle</h2>
+                        <p class="card-text">Calendário integrado com visão geral de todas as datas e prazos importantes, com lembretes automáticos.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="card text-center w-100">
+                    <div class="card-body">
+                        <div class="card-icon mb-3 fs-2">🔎</div>
+                        <h2 class="card-title h5 font-montserrat fw-bold">Busque e Filtre</h2>
+                        <p class="card-text">Encontre profissionais por cidade, tipo de casamento e faixa de preço.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="col-lg-4 d-flex align-items-stretch">
+                <div class="card text-center w-100">
+                    <div class="card-body">
+                        <div class="card-icon mb-3 fs-2">📋</div>
+                        <h2 class="card-title h5 font-montserrat fw-bold">Listagem de Itens</h2>
+                        <p class="card-text">Crie e gerencie listas de itens necessários, incluindo quantidades, status de aquisição e fornecedores.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão para acessar o marketplace -->
+        <div class="text-center mt-5">
+            <a href="/marketplace/cerimonialistas/" class="btn btn-lg px-5 fw-semibold" 
+               style="background-color:#8B6B0B; color:white; border-radius:30px;">
+                Acessar Marketplace de Cerimonialistas
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Repita a estrutura de grid para as outras seções de cards -->
+
+
+{% endblock %}
